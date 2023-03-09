@@ -14,11 +14,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Mushroom',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=255)),
                 ('description', models.TextField()),
-                ('edible', models.BooleanField()),
-                ('poisonous', models.BooleanField()),
+                ('edible', models.BooleanField(default=False)),
+                ('poisonous', models.BooleanField(default=False)),
                 ('area', models.CharField(max_length=255)),
                 ('image_url', models.URLField()),
             ],

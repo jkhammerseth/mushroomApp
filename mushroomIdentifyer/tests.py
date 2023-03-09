@@ -12,8 +12,8 @@ class MushroomTests(TestCase):
         self.mushroom_data = {
             "name": "Kantarell",
             "description": "Kantarell har gul, traktformet hatt, nedløpende folder og god kantarellukt. Har samme gulfarge på undersiden som oversiden. Avrundet stilk.",
-            "edible": True,
-            "poisonous": False,
+            "edible": "True",
+            "poisonous": "False",
             "area": "Norge",
             "image_url": "https://media.snl.no/media/116599/standard_compressed_kantarell_37810.jpg"
         }

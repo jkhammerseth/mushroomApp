@@ -15,15 +15,13 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-MONGO_DB_URL = 'mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.0'
-
 MONGO_DB_NAME = 'MushroomDB'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 
+SECRET_KEY = 'django-insecure-$f$vvr(g^t3c4op5u=6=#nw!$4lwb*v7k46$wt&f4wx@1-ri#g'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -40,10 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'mushroomIdentifyer',
-    'rest_framework',
-
+    'mushroomIdentifyer.apps.MushroomidentifyerConfig',
+    'rest_framework'
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -79,10 +77,17 @@ WSGI_APPLICATION = 'mushroomApp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'djongo',
+        "CLIENT": {
+           "name": "mushroomDB",
+           "host": "mongodb+srv://jkhammerseth:Gd5KPV3fIbGuOM8X@mushroomdb.ii7ez00.mongodb.net/?retryWrites=true&w=majority",
+           "username": "jkhammerseth",
+           "password": "Gd5KPV3fIbGuOM8X",
+           "authMechanism": "SCRAM-SHA-1",
+        }, 
     }
 }
 
