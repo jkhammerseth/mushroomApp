@@ -21,7 +21,7 @@ MONGO_DB_NAME = 'MushroomDB'
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$f$vvr(g^t3c4op5u=6=#nw!$4lwb*v7k46$wt&f4wx@1-ri#g'
+SECRET_KEY = ""
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
