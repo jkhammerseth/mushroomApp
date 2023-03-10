@@ -14,7 +14,7 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
-dotenv_path = os.path.join('/Users/jonashammerseth/Desktop/DAT251/MushroomApp/mushroomApp', '.env', 'include', 'db.env') # Replace 'db.env' with the name of your environment variable file
+dotenv_path = os.path.join(os.path.dirname(__file__), '..', '.env', 'include', 'db.env')
 load_dotenv(dotenv_path)
 
 DATABASE_HOST = os.getenv('DATABASE_HOST')
