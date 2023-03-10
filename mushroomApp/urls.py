@@ -15,18 +15,14 @@ Including another URLconf
 """
 from rest_framework import routers
 from django.urls import path, include
-from mushroomIdentifyer.views import MushroomViewSet, search_mushrooms, delete_mushroom, update_mushroom, edible_mushrooms, poisonous_mushrooms
+from mushroomIdentifyer.views import MushroomViewSet, search_mushrooms
 
 router = routers.DefaultRouter()
 router.register(r'mushrooms', MushroomViewSet)
 
 urlpatterns = [
-    path('', include(router.urls)),
+    #path('', include(router.urls)),
     path('mushrooms/', MushroomViewSet.as_view({'get': 'list', 'post': 'create'})),
     path('mushrooms/<int:pk>/', MushroomViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'})),
-    path('mushrooms/<int:mushroom_id>/', delete_mushroom, name='delete_mushroom'),
-    path('mushrooms/<int:mushroom_id>/', update_mushroom, name='update_mushroom'),
     path('mushrooms/search/', search_mushrooms, name='search_mushrooms'),
-    path('mushrooms/edible/', edible_mushrooms, name='edible_mushrooms'),
-    path('mushrooms/poisonous/', poisonous_mushrooms, name='poisonous_mushrooms')
 ]
