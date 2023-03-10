@@ -11,17 +11,28 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+dotenv_path = os.path.join('/Users/jonashammerseth/Desktop/DAT251/MushroomApp/mushroomApp', '.env', 'include', 'db.env') # Replace 'db.env' with the name of your environment variable file
+load_dotenv(dotenv_path)
+
+DATABASE_HOST = os.getenv('DATABASE_HOST')
+MONGO_DB_NAME = os.getenv('DB_NAME')
+DB_USER = os.getenv('DB_USER')
+DB_PASSWORD = os.getenv('DB_PASSWORD')
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-MONGO_DB_NAME = 'MushroomDB'
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$f$vvr(g^t3c4op5u=6=#nw!$4lwb*v7k46$wt&f4wx@1-ri#g'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -40,8 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'mushroomIdentifyer.apps.MushroomidentifyerConfig',
     'rest_framework',
-    'corsheaders',
-    
+    'corsheaders'
 ]
 
 
@@ -89,10 +99,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'djongo',
         "CLIENT": {
-           "name": "mushroomDB",
-           "host": "mongodb+srv://jkhammerseth:Gd5KPV3fIbGuOM8X@mushroomdb.ii7ez00.mongodb.net/?retryWrites=true&w=majority",
-           "username": "jkhammerseth",
-           "password": "Gd5KPV3fIbGuOM8X",
+           "name": MONGO_DB_NAME,
+           "host": DATABASE_HOST,
+           "username": DB_USER,
+           "password": DB_PASSWORD,
            "authMechanism": "SCRAM-SHA-1",
         }, 
     }
