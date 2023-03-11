@@ -1,5 +1,4 @@
-import json
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
@@ -22,3 +21,18 @@ def search_mushrooms(request):
     serializer = MushroomSerializer(mushrooms, many=True)
     return Response(serializer.data)
 
+def edible_mushrooms(request):
+    mushrooms = Mushroom.objects.filter(edible=True)
+    serializer = MushroomSerializer(mushrooms, many=True)
+    if serializer.data:
+        return Response(serializer.data)
+    else:
+        return Response({'message': 'No edible mushrooms found.'}, status=404)
+
+def poisonous_mushrooms(request):
+    mushrooms = Mushroom.objects.filter(poisonous=True)
+    serializer = MushroomSerializer(mushrooms, many=True)
+    if serializer.data:
+        return Response(serializer.data)
+    else:
+        return Response({'message': 'No poisonous mushrooms found.'}, status=404)
