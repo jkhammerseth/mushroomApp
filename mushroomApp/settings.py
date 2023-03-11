@@ -14,13 +14,16 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
-dotenv_path = os.path.join(os.path.dirname(__file__), '..', '.env', 'include', 'db.env')
-load_dotenv(dotenv_path)
+dotenv_path = os.path.join(os.path.dirname(__file__), '..', '.env','config', 'db.json')
 
-DATABASE_HOST = os.getenv('DATABASE_HOST')
-DATABASE_NAME = os.getenv('DB_NAME')
-DATABASE_USER = os.getenv('DB_USER')
-DATABASE_PASSWORD = os.getenv('DB_PASSWORD')
+import json
+with open(dotenv_path) as f:
+    data = json.load(f)
+
+DATABASE_HOST = data['DATABASE_HOST']
+DATABASE_NAME = data['DB_NAME']
+DATABASE_USER = data['DB_USER']
+DATABASE_PASSWORD = data['DB_PASSWORD']
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -32,7 +35,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = data['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

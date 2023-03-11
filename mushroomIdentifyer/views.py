@@ -57,7 +57,11 @@ def predict_mushroom(request):
         # Decode the numpy array as an image using OpenCV
         img = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
         pred, pred_idx, probs = learn.predict(img)
-        return JsonResponse({'prediction': labels[pred_idx], 'probability': probs[pred_idx].item()})
+
+        # Get the corresponding mushroom object from the database
+        mushroom = Mushroom.objects.get(latin_name=labels[pred_idx])
+        serializer = MushroomSerializer(mushroom)
+        return JsonResponse({'prediction': serializer.data, 'probability': probs[pred_idx].item()})
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
 
