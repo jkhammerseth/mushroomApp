@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from rest_framework import routers
-from django.urls import path, re_path
+from django.urls import path
 from mushroomIdentifyer.views import MushroomViewSet, search_mushrooms, edible_mushrooms, poisonous_mushrooms, predict_mushroom
 
 router = routers.DefaultRouter()
@@ -22,7 +22,7 @@ router.register(r'mushrooms', MushroomViewSet)
 
 urlpatterns = [
     path('mushrooms/', MushroomViewSet.as_view({'get': 'list', 'post': 'create'})),
-    re_path('mushrooms/(?P<pk>[0-9a-f-]+)/$', MushroomViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'})),
+    path('mushrooms/<int:pk>/', MushroomViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'})),
     path('mushrooms/search/', search_mushrooms, name='search_mushrooms'),
     path('mushrooms/edible/', edible_mushrooms, name='edible_mushrooms'),
     path('mushrooms/poisonous/', poisonous_mushrooms, name='poisonous_mushrooms'),
