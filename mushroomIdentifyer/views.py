@@ -58,9 +58,13 @@ def predict_mushroom(request):
         img = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
         pred, pred_idx, probs = learn.predict(img)
 
-        # Get the corresponding mushroom object from the database
-        mushroom = Mushroom.objects.get(latin_name=labels[pred_idx])
-        serializer = MushroomSerializer(mushroom)
+        # Get the corresponding mushroom object from the database, this uses the same 
+        # logic as the search_mushrooms function above, matches if the latin name contains
+        # the predicted label instead of equals, this is because the model is not perfect
+        # and sometimes the label is not exactly the same as the latin name
+    
+        mushroom = Mushroom.objects.filter(latin_name__icontains=labels[pred_idx])
+        serializer = MushroomSerializer(mushroom, many=True)
         return JsonResponse({'prediction': serializer.data, 'probability': probs[pred_idx].item()})
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
