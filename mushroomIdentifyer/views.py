@@ -12,7 +12,7 @@ import io
 import numpy as np
 import cv2
 
-learn = load_learner("./model/model_v1.pkl")
+learn = load_learner("./model/model_v1.25.pkl")
 labels = learn.dls.vocab
 
 # Create your views here.
@@ -57,15 +57,22 @@ def predict_mushroom(request):
         # Decode the numpy array as an image using OpenCV
         img = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
         pred, pred_idx, probs = learn.predict(img)
-
-        # Get the corresponding mushroom object from the database, this uses the same 
-        # logic as the search_mushrooms function above, matches if the latin name contains
-        # the predicted label instead of equals, this is because the model is not perfect
-        # and sometimes the label is not exactly the same as the latin name
-    
-        mushroom = Mushroom.objects.filter(latin_name__icontains=labels[pred_idx])
-        serializer = MushroomSerializer(mushroom, many=True)
-        return JsonResponse({'prediction': serializer.data, 'probability': probs[pred_idx].item()})
+        # get the top 5 predictions
+        mashed_ = []
+        for mushroom_, prob in zip(learn.dls.vocab, probs):
+            mashed_.append({'mushroom': mushroom_, 'probability': prob.item()})
+        sorted_mashed = sorted(mashed_, key=lambda x: x['probability'], reverse=True)
+        top_5_mushrooms = sorted_mashed[:5]
+        
+        print(top_5_mushrooms[0].get('mushroom'))
+        JsonRes = []
+        for i in range(5):
+            mushroom = Mushroom.objects.filter(latin_name__icontains=top_5_mushrooms[i].get('mushroom'))
+            serializer = MushroomSerializer(mushroom, many=True)
+            JsonRes.append({'prediction': serializer.data, 'name': top_5_mushrooms[i].get('mushroom') , 'probability': top_5_mushrooms[i].get('probability')})
+        
+        
+        return JsonResponse(JsonRes, safe=False)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
 
